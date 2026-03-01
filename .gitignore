@@ -1,0 +1,36 @@
+# Node
+node_modules
+.pnpm-store
+
+# Logs
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# Build
+.next
+dist
+build
+expo-env.d.ts
+.expo
+.expo-shared
+.web-build
+
+# Prisma
+prisma/migrations
+
+# Mac
+.DS_Store
+
+# IDE
+.vscode
+.idea
+
+# Coverage
+coverage
