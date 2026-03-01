@@ -6,7 +6,8 @@
 		"useIgnoreFile": false
 	},
 	"files": {
-		"ignoreUnknown": false
+		"ignoreUnknown": true,
+		"ignore": ["**/.next/**", "**/prisma/migrations/**", "**/.expo/**", "**/expo-env.d.ts"]
 	},
 	"formatter": {
 		"enabled": true,
