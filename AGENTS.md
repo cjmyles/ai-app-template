@@ -1,5 +1,20 @@
 # Agent Rules (ai-app-template)
 
+## Setup
+
+Run these commands in order after a fresh clone:
+
+```sh
+pnpm install
+docker compose up -d
+pnpm --filter web db:push    # apply schema (first time)
+pnpm --filter web db:seed    # create dev user (dev@example.com)
+pnpm dev:web
+pnpm dev:native
+pnpm typecheck
+pnpm lint
+```
+
 ## Non-negotiables
 - Use pnpm workspaces.
 - TypeScript strict mode everywhere; do not relax compiler options.

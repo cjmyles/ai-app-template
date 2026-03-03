@@ -7,14 +7,25 @@ import { View } from "react-native";
 // Falls back to localhost for the iOS Simulator / Android Emulator.
 const API_BASE = process.env.EXPO_PUBLIC_API_URL ?? "http://localhost:3000";
 
+function isHealthResponse(v: unknown): v is HealthResponse {
+	return (
+		typeof v === "object" &&
+		v !== null &&
+		(v as Record<string, unknown>).ok === true
+	);
+}
+
 export default function HomeScreen() {
 	const [data, setData] = useState<HealthResponse | null>(null);
 	const [error, setError] = useState<string | null>(null);
 
 	useEffect(() => {
 		fetch(`${API_BASE}/api/health`)
-			.then((r) => r.json() as Promise<HealthResponse>)
-			.then(setData)
+			.then((r) => r.json())
+			.then((json: unknown) => {
+				if (!isHealthResponse(json)) throw new Error("Invalid API response");
+				setData(json);
+			})
 			.catch((e: unknown) => {
 				setError(e instanceof Error ? e.message : "Unknown error");
 			});
