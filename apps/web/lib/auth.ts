@@ -22,10 +22,19 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 			},
 			async authorize(credentials) {
 				const email = credentials.email;
-				if (typeof email !== "string") return null;
+				const password = credentials.password;
+				if (typeof email !== "string" || typeof password !== "string")
+					return null;
+
 				const user = await db.user.findUnique({ where: { email } });
 				if (!user) return null;
-				// TODO: add password hashing (e.g. bcrypt) before production use
+
+				// TODO: replace with real password verification before production use.
+				// Example: const ok = await bcrypt.compare(password, user.passwordHash)
+				// The User model needs a `passwordHash String` field to store the hash.
+				const isValidPassword = password.length > 0; // ← demo-only guard
+				if (!isValidPassword) return null;
+
 				return { id: user.id, email: user.email };
 			},
 		}),

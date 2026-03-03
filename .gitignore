@@ -28,9 +28,15 @@ prisma/migrations
 # Mac
 .DS_Store
 
+# TypeScript
+*.tsbuildinfo
+
 # IDE
 .vscode
 .idea
+
+# Claude Code (local settings, not repo config)
+.claude
 
 # Coverage
 coverage
