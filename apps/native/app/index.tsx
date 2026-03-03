@@ -1,4 +1,5 @@
 import type { HealthResponse } from "@repo/types";
+import { HealthResponseSchema } from "@repo/types";
 import { Text } from "@repo/ui";
 import { useEffect, useState } from "react";
 import { View } from "react-native";
@@ -6,14 +7,6 @@ import { View } from "react-native";
 // Set EXPO_PUBLIC_API_URL in apps/native/.env for physical devices / CI.
 // Falls back to localhost for the iOS Simulator / Android Emulator.
 const API_BASE = process.env.EXPO_PUBLIC_API_URL ?? "http://localhost:3000";
-
-function isHealthResponse(v: unknown): v is HealthResponse {
-	return (
-		typeof v === "object" &&
-		v !== null &&
-		(v as Record<string, unknown>).ok === true
-	);
-}
 
 export default function HomeScreen() {
 	const [data, setData] = useState<HealthResponse | null>(null);
@@ -23,8 +16,9 @@ export default function HomeScreen() {
 		fetch(`${API_BASE}/api/health`)
 			.then((r) => r.json())
 			.then((json: unknown) => {
-				if (!isHealthResponse(json)) throw new Error("Invalid API response");
-				setData(json);
+				const result = HealthResponseSchema.safeParse(json);
+				if (!result.success) throw new Error("Invalid API response");
+				setData(result.data);
 			})
 			.catch((e: unknown) => {
 				setError(e instanceof Error ? e.message : "Unknown error");
