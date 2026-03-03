@@ -10,4 +10,6 @@ async function main() {
 	// hash with bcrypt/argon2 here, verify in lib/auth.ts authorize()
 }
 
-main().catch(console.error).finally(() => db.$disconnect());
+main()
+	.catch(console.error)
+	.finally(() => db.$disconnect());
