@@ -1,3 +1,4 @@
+import { Text } from "@repo/ui";
 import { redirect } from "next/navigation";
 import { auth, signOut } from "@/lib/auth";
 
@@ -13,7 +14,7 @@ export default async function DashboardPage() {
 	return (
 		<main className="flex min-h-screen flex-col items-center justify-center gap-8 p-8">
 			<h1 className="text-3xl font-bold">Dashboard</h1>
-			<p className="text-gray-600">Welcome, {session.user?.email}</p>
+			<Text className="text-gray-600">Welcome, {session.user?.email}</Text>
 			<form action={handleSignOut}>
 				<button
 					type="submit"

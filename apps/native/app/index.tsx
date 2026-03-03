@@ -1,6 +1,7 @@
 import type { HealthResponse } from "@repo/types";
+import { Text } from "@repo/ui";
 import { useEffect, useState } from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 
 // Set EXPO_PUBLIC_API_URL in apps/native/.env for physical devices / CI.
 // Falls back to localhost for the iOS Simulator / Android Emulator.
