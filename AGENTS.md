@@ -2,43 +2,45 @@
 
 ## Setup
 
-Run these commands in order after a fresh clone:
-
 ```sh
 pnpm install
 docker compose up -d
-pnpm --filter web db:push    # apply schema (first time)
-pnpm --filter web db:seed    # create dev user (dev@example.com)
+cp .env.example .env
+pnpm --filter web prisma migrate dev
+pnpm --filter web db:seed        # creates dev@example.com
 pnpm dev:web
 pnpm dev:native
-pnpm typecheck
-pnpm lint
 ```
 
+Verify with: `pnpm typecheck && pnpm lint`
+
 ## Non-negotiables
-- Use pnpm workspaces.
-- TypeScript strict mode everywhere; do not relax compiler options.
-- Use Biome for formatting + linting; do not add Prettier/ESLint unless explicitly requested.
-- Keep the repo deterministic: no unnecessary files, no surprise deps.
-- No default exports unless a framework requires it.
 
-## Where code goes
-### packages/ui
-- Only shared primitives (Button, Text, Stack, Card, Input, Select, Badge, Icon wrapper, Modal/Sheet, Toast).
-- No feature components, no screen-specific layouts, no business logic.
+- **pnpm workspaces only.** Do not use npm or yarn.
+- **TypeScript strict mode everywhere.** Do not relax any compiler options.
+- **Biome for formatting and linting.** Do not add Prettier or ESLint.
+- **No default exports** unless a framework requires it (Next.js pages, Expo screens).
+- **No new dependencies without justification.** Every dep must earn its place.
+- **Do not modify infra** (Docker, CI, Prisma provider, auth strategy) unless explicitly instructed.
 
-### apps/web
-- Next.js app (App Router), Auth.js, API routes/route handlers, Prisma usage.
-- Web-only UI and feature components.
+## Where code lives
 
-### apps/native
-- Expo app, navigation, device APIs.
-- Native-only UI and feature components (e.g. list rows with status + actions).
+| Location | Purpose |
+|---|---|
+| `packages/ui` | Shared UI primitives only — Button, Text, Input, Badge, Avatar. No feature components, no business logic, no screen layouts. |
+| `packages/types` | Cross-app TypeScript types and Zod schemas. No Prisma types, no DB models. |
+| `apps/web` | Next.js app: App Router, Auth.js, Prisma, API routes. Web-only UI and features. |
+| `apps/native` | Expo app: navigation, device APIs. Native-only UI and features. |
 
-### packages/types
-- Shared domain types and schemas that are genuinely cross-app.
-- No DB models or Prisma types re-exported.
+## Boundaries
+
+- Shared packages (`packages/*`) must not read environment variables.
+- Shared packages must not contain app-specific business logic.
+- `packages/ui` ships `.web.tsx` and `.native.tsx` variants for every component; never a single file that branches on platform.
+- API contracts are defined in `packages/types` as Zod schemas. Consumers use `.safeParse()` — never cast unknown JSON.
 
 ## PR discipline
-- Small PRs.
-- Include a brief summary, test notes, and any follow-ups in the PR description.
+
+- Keep PRs small and focused.
+- PR description must include: summary of change, test notes, and any follow-ups.
+- Run `pnpm typecheck && pnpm lint` locally before opening a PR.
