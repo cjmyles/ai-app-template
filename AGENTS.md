@@ -27,4 +27,3 @@
 ## PR discipline
 - Small PRs.
 - Include a brief summary, test notes, and any follow-ups in the PR description.
-EOF
