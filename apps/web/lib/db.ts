@@ -1,7 +1,8 @@
 import { PrismaClient } from "@prisma/client";
 
-const globalForPrisma = globalThis as unknown as { prisma: PrismaClient };
+// Typed extension of globalThis preserves the singleton across HMR in development.
+const g = globalThis as typeof globalThis & { __prisma?: PrismaClient };
 
-export const db = globalForPrisma.prisma ?? new PrismaClient();
+export const db = g.__prisma ?? new PrismaClient();
 
-if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = db;
+if (process.env.NODE_ENV !== "production") g.__prisma = db;

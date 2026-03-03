@@ -2,12 +2,16 @@ import type { HealthResponse } from "@repo/types";
 import { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 
+// Set EXPO_PUBLIC_API_URL in apps/native/.env for physical devices / CI.
+// Falls back to localhost for the iOS Simulator / Android Emulator.
+const API_BASE = process.env.EXPO_PUBLIC_API_URL ?? "http://localhost:3000";
+
 export default function HomeScreen() {
 	const [data, setData] = useState<HealthResponse | null>(null);
 	const [error, setError] = useState<string | null>(null);
 
 	useEffect(() => {
-		fetch("http://localhost:3000/api/health")
+		fetch(`${API_BASE}/api/health`)
 			.then((r) => r.json() as Promise<HealthResponse>)
 			.then(setData)
 			.catch((e: unknown) => {

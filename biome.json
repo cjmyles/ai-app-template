@@ -1,13 +1,12 @@
 {
 	"$schema": "https://biomejs.dev/schemas/2.4.4/schema.json",
 	"vcs": {
-		"enabled": false,
+		"enabled": true,
 		"clientKind": "git",
-		"useIgnoreFile": false
+		"useIgnoreFile": true
 	},
 	"files": {
-		"ignoreUnknown": true,
-		"ignore": ["**/.next/**", "**/prisma/migrations/**", "**/.expo/**", "**/expo-env.d.ts"]
+		"ignoreUnknown": true
 	},
 	"formatter": {
 		"enabled": true,
@@ -31,5 +30,17 @@
 				"organizeImports": "on"
 			}
 		}
-	}
+	},
+	"overrides": [
+		{
+			"includes": ["**/global.css"],
+			"linter": {
+				"rules": {
+					"suspicious": {
+						"noUnknownAtRules": "off"
+					}
+				}
+			}
+		}
+	]
 }
