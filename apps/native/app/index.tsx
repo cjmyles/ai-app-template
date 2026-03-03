@@ -1,7 +1,6 @@
+import type { HealthResponse } from "@repo/types";
 import { useEffect, useState } from "react";
 import { Text, View } from "react-native";
-
-type HealthResponse = { ok: boolean };
 
 export default function HomeScreen() {
 	const [data, setData] = useState<HealthResponse | null>(null);
