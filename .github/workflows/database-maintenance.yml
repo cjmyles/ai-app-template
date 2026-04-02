@@ -1,0 +1,118 @@
+name: Database Maintenance
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_environment:
+        description: "GitHub Environment to target"
+        required: true
+        type: choice
+        default: Staging
+        options:
+          - Staging
+          - Production
+      operation:
+        description: "Database operation to run"
+        required: true
+        type: choice
+        default: push_and_seed
+        options:
+          - push_only
+          - seed_only
+          - push_and_seed
+          - force_reset_and_seed
+      seed_profile:
+        description: "Seed profile to apply when seeding runs"
+        required: true
+        type: choice
+        default: baseline
+        options:
+          - baseline
+          - demo
+
+permissions:
+  contents: read
+
+concurrency:
+  group: database-maintenance-${{ inputs.target_environment }}
+  cancel-in-progress: false
+
+jobs:
+  database-maintenance:
+    name: Database Maintenance (${{ inputs.target_environment }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    environment: ${{ inputs.target_environment }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Validate workflow inputs and required secrets
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          TARGET_ENVIRONMENT: ${{ inputs.target_environment }}
+          OPERATION: ${{ inputs.operation }}
+          SEED_PROFILE: ${{ inputs.seed_profile }}
+        run: |
+          if [ -z "${DATABASE_URL}" ]; then
+            echo "DATABASE_URL secret is required for this environment."
+            exit 1
+          fi
+
+          if [ "${TARGET_ENVIRONMENT}" = "Production" ] && [ "${OPERATION}" = "force_reset_and_seed" ]; then
+            echo "force_reset_and_seed is blocked for the Production environment."
+            exit 1
+          fi
+
+          if [ "${TARGET_ENVIRONMENT}" = "Production" ] && [ "${SEED_PROFILE}" != "baseline" ]; then
+            echo "Production may only use the baseline seed profile."
+            exit 1
+          fi
+
+      - name: Write workflow env file
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          SEED_EMAIL: ${{ secrets.SEED_EMAIL }}
+          SEED_DEMO_EMAIL: ${{ secrets.SEED_DEMO_EMAIL }}
+        run: |
+          {
+            echo "DATABASE_URL=${DATABASE_URL}"
+            if [ -n "${SEED_EMAIL}" ]; then echo "SEED_EMAIL=${SEED_EMAIL}"; fi
+            if [ -n "${SEED_DEMO_EMAIL}" ]; then echo "SEED_DEMO_EMAIL=${SEED_DEMO_EMAIL}"; fi
+          } > .env
+
+      - name: Generate Prisma client
+        run: pnpm db:generate
+
+      - name: Apply schema changes
+        if: ${{ inputs.operation == 'push_only' || inputs.operation == 'push_and_seed' }}
+        run: pnpm db:push
+
+      - name: Force reset schema
+        if: ${{ inputs.operation == 'force_reset_and_seed' }}
+        run: pnpm db:push:force-reset
+
+      - name: Seed baseline data
+        if: ${{ inputs.operation != 'push_only' && inputs.seed_profile == 'baseline' }}
+        run: pnpm db:seed:baseline
+
+      - name: Seed demo data
+        if: ${{ inputs.operation != 'push_only' && inputs.seed_profile == 'demo' }}
+        run: pnpm db:seed:demo
+
+      - name: Remove workflow env file
+        if: always()
+        run: rm -f .env

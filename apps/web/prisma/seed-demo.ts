@@ -7,8 +7,6 @@ async function main() {
 	const { baselineEmail, demoEmail } = await seedDemo(db);
 	console.log(`Seeded baseline user: ${baselineEmail}`);
 	console.log(`Seeded demo user: ${demoEmail}`);
-	// TODO production upgrade: add `passwordHash String` to schema.prisma,
-	// hash with bcrypt/argon2 here, verify in lib/auth.ts authorize()
 }
 
 main()

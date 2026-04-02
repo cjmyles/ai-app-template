@@ -1,4 +1,10 @@
-import { TextInput, type TextStyle } from "react-native";
+import {
+	type StyleProp,
+	TextInput,
+	type TextInputProps,
+	type TextStyle,
+} from "react-native";
+import { colors } from "../../tokens/colors";
 
 declare module "react-native" {
 	interface TextInputProps {
@@ -6,14 +12,10 @@ declare module "react-native" {
 	}
 }
 
-type InputProps = {
-	value?: string;
-	placeholder?: string;
-	secureTextEntry?: boolean;
-	disabled?: boolean;
+type InputProps = TextInputProps & {
 	className?: string;
-	style?: TextStyle;
-	onChangeText?: (text: string) => void;
+	disabled?: boolean;
+	style?: StyleProp<TextStyle>;
 };
 
 export function Input({
@@ -35,7 +37,7 @@ export function Input({
 		<TextInput
 			value={value}
 			placeholder={placeholder}
-			placeholderTextColor="#a3a3a3"
+			placeholderTextColor={colors.neutral[400]}
 			secureTextEntry={secureTextEntry}
 			editable={!disabled}
 			className={classes}
