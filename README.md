@@ -11,7 +11,7 @@ A hardened v1 starting point — not a demo. It establishes the workspace struct
 ```
 apps/
   web/       Next.js 15 (App Router), Auth.js 5, Prisma 6, Tailwind 4
-  native/    Expo 52, expo-router, NativeWind 4
+  native/    Expo 54, expo-router, NativeWind 4
 
 packages/
   types/     Shared Zod schemas and TypeScript types
@@ -33,6 +33,12 @@ pnpm dev:web
 pnpm dev:native
 ```
 
+### Prerequisites
+
+- Node.js 20.19.4+ and `<21`
+- pnpm
+- Docker
+
 ### Local Environment
 
 All local app commands read from the repo root `.env`.
@@ -45,6 +51,16 @@ All local app commands read from the repo root `.env`.
 
 Set `EXPO_PUBLIC_API_URL` in the root `.env` to match the right target for your
 native runtime.
+
+Native development commands:
+
+- `pnpm dev:native` for Expo Go on localhost
+- `pnpm dev:native:lan` for Expo Go over LAN
+- `pnpm dev:native:tunnel` for Expo Go over tunnel
+- `pnpm dev:native:dev-client` for a custom dev client on localhost
+- `pnpm dev:native:dev-client:lan` for a custom dev client over LAN
+- `pnpm dev:native:dev-client:tunnel` for a custom dev client over tunnel
+- `pnpm native:doctor` for a native toolchain/config sanity check
 
 The template defaults to a greenfields Prisma workflow:
 
@@ -60,6 +76,7 @@ this mode.
 ```sh
 pnpm typecheck   # tsc across all packages
 pnpm lint        # Biome plus guard scripts
+pnpm test:native # Jest + React Native Testing Library smoke coverage
 ```
 
 CI runs both on every push to `main` and on all pull requests.

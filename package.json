@@ -4,8 +4,16 @@
 	"packageManager": "pnpm@10.29.3",
 	"scripts": {
 		"dev:web": "pnpm --filter web dev",
-		"dev:native": "pnpm --filter native start",
+		"dev:native": "pnpm --filter native run start",
+		"dev:native:lan": "pnpm --filter native run start:lan",
+		"dev:native:tunnel": "pnpm --filter native run start:tunnel",
+		"dev:native:dev-client": "pnpm --filter native run start:dev-client",
+		"dev:native:dev-client:lan": "pnpm --filter native run start:dev-client:lan",
+		"dev:native:dev-client:tunnel": "pnpm --filter native run start:dev-client:tunnel",
+		"dev:ios": "pnpm --filter native run ios",
+		"dev:android": "pnpm --filter native run android",
 		"build": "pnpm -r build",
+		"test:native": "pnpm --filter native run test",
 		"typecheck": "pnpm -r typecheck",
 		"lint": "biome check . && pnpm lint:guard:prisma-client-imports && pnpm lint:guard:prisma-types-sync && pnpm lint:guard:generated-enums && pnpm lint:guard:file-naming && pnpm lint:guard:no-migrations",
 		"format": "biome format --write .",
@@ -21,7 +29,11 @@
 		"db:seed": "pnpm --filter web db:seed",
 		"db:seed:baseline": "pnpm --filter web db:seed:baseline",
 		"db:seed:demo": "pnpm --filter web db:seed:demo",
-		"db:reset": "pnpm db:push:force-reset && pnpm db:seed:demo"
+		"db:reset": "pnpm db:push:force-reset && pnpm db:seed:demo",
+		"native:doctor": "pnpm --filter native run doctor"
+	},
+	"engines": {
+		"node": ">=20.19.4 <21"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.4.4"
