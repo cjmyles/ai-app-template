@@ -7,8 +7,21 @@
 		"dev:native": "pnpm --filter native start",
 		"build": "pnpm -r build",
 		"typecheck": "pnpm -r typecheck",
-		"lint": "biome check .",
-		"format": "biome format --write ."
+		"lint": "biome check . && pnpm lint:guard:prisma-client-imports && pnpm lint:guard:prisma-types-sync && pnpm lint:guard:generated-enums && pnpm lint:guard:file-naming && pnpm lint:guard:no-migrations",
+		"format": "biome format --write .",
+		"gen:types:enums": "node ./scripts/generate-shared-enums.mjs",
+		"lint:guard:prisma-client-imports": "bash ./scripts/check-prisma-client-imports.sh",
+		"lint:guard:prisma-types-sync": "bash ./scripts/check-prisma-types-sync.sh",
+		"lint:guard:generated-enums": "node ./scripts/generate-shared-enums.mjs --check",
+		"lint:guard:file-naming": "bash ./scripts/check-file-naming.sh",
+		"lint:guard:no-migrations": "bash ./scripts/check-no-migrations.sh",
+		"db:generate": "pnpm --filter web db:generate",
+		"db:push": "pnpm --filter web db:push",
+		"db:push:force-reset": "pnpm --filter web db:push:force-reset",
+		"db:seed": "pnpm --filter web db:seed",
+		"db:seed:baseline": "pnpm --filter web db:seed:baseline",
+		"db:seed:demo": "pnpm --filter web db:seed:demo",
+		"db:reset": "pnpm db:push:force-reset && pnpm db:seed:demo"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.4.4"

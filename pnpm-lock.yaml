@@ -72,6 +72,9 @@ importers:
       '@repo/ui':
         specifier: workspace:*
         version: link:../../packages/ui
+      '@repo/validation':
+        specifier: workspace:*
+        version: link:../../packages/validation
       next:
         specifier: ^15.0.0
         version: 15.5.12(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -132,6 +135,12 @@ importers:
       react-native:
         specifier: 0.76.5
         version: 0.76.5(@babel/core@7.29.0)(@babel/preset-env@7.29.0(@babel/core@7.29.0))(@types/react@18.3.28)(react@19.2.4)
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
+
+  packages/validation:
+    devDependencies:
       typescript:
         specifier: ^5.0.0
         version: 5.9.3

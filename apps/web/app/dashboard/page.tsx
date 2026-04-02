@@ -1,4 +1,4 @@
-import { Text } from "@repo/ui";
+import { Button, NoticeCard, Text } from "@repo/ui";
 import { redirect } from "next/navigation";
 import { auth, signOut } from "@/lib/auth";
 
@@ -12,16 +12,24 @@ export default async function DashboardPage() {
 	}
 
 	return (
-		<main className="flex min-h-screen flex-col items-center justify-center gap-8 p-8">
-			<h1 className="text-3xl font-bold">Dashboard</h1>
-			<Text className="text-gray-600">Welcome, {session.user?.email}</Text>
+		<main className="flex min-h-screen flex-col items-center justify-center gap-8 bg-neutral-50 p-8">
+			<div className="w-full max-w-md space-y-6">
+				<div className="space-y-2 text-center">
+					<h1 className="text-3xl font-bold text-neutral-950">Dashboard</h1>
+					<Text className="text-neutral-600">
+						Welcome, {session.user?.email}
+					</Text>
+				</div>
+				<NoticeCard
+					tone="success"
+					title="Signed in"
+					description="The template is using shared contracts, shared UI, and the root .env workflow."
+				/>
+			</div>
 			<form action={handleSignOut}>
-				<button
-					type="submit"
-					className="rounded bg-red-600 px-4 py-2 text-white hover:bg-red-700"
-				>
+				<Button type="submit" variant="destructive">
 					Sign out
-				</button>
+				</Button>
 			</form>
 		</main>
 	);

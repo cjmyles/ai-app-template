@@ -1,3 +1,4 @@
+import { Button, Input, NoticeCard } from "@repo/ui";
 import { signIn } from "@/lib/auth";
 
 export default function HomePage() {
@@ -10,30 +11,38 @@ export default function HomePage() {
 	}
 
 	return (
-		<main className="flex min-h-screen flex-col items-center justify-center gap-8 p-8">
-			<h1 className="text-4xl font-bold">AI App Template</h1>
-			<form action={handleSignIn} className="flex w-80 flex-col gap-4">
-				<input
-					type="email"
-					name="email"
-					placeholder="Email"
-					required
-					className="rounded border px-4 py-2"
+		<main className="flex min-h-screen items-center justify-center bg-neutral-50 px-4 py-12">
+			<div className="w-full max-w-sm space-y-6">
+				<div className="space-y-2 text-center">
+					<h1 className="text-4xl font-bold text-neutral-950">
+						AI App Template
+					</h1>
+					<p className="text-sm leading-6 text-neutral-600">
+						A Next.js + Expo starter with shared types, shared UI, and hardened
+						repo conventions.
+					</p>
+				</div>
+				<NoticeCard
+					title="Local demo credentials"
+					description="Run `pnpm db:seed:demo`, then sign in with dev@example.com and any non-empty password."
 				/>
-				<input
-					type="password"
-					name="password"
-					placeholder="Password"
-					required
-					className="rounded border px-4 py-2"
-				/>
-				<button
-					type="submit"
-					className="rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
-				>
-					Sign in
-				</button>
-			</form>
+				<form action={handleSignIn} className="space-y-4">
+					<Input type="email" name="email" placeholder="Email" required />
+					<Input
+						type="password"
+						name="password"
+						placeholder="Password"
+						required
+					/>
+					<Button type="submit" className="w-full">
+						Sign in
+					</Button>
+				</form>
+				<p className="text-center text-sm text-neutral-500">
+					Local app commands load environment variables from the repo root
+					`.env`.
+				</p>
+			</div>
 		</main>
 	);
 }

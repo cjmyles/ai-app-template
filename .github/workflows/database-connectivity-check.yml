@@ -1,0 +1,84 @@
+name: Database Connectivity Check
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_environment:
+        description: "GitHub Environment holding DATABASE_URL"
+        required: true
+        type: choice
+        default: Staging
+        options:
+          - Staging
+          - Production
+
+permissions:
+  contents: read
+
+concurrency:
+  group: database-connectivity-check-${{ inputs.target_environment }}
+  cancel-in-progress: false
+
+jobs:
+  connectivity-check:
+    name: Connectivity Check (${{ inputs.target_environment }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: ${{ inputs.target_environment }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Validate required secrets
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          if [ -z "${DATABASE_URL}" ]; then
+            echo "DATABASE_URL secret is required for this environment."
+            exit 1
+          fi
+
+      - name: Write workflow env file
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          {
+            echo "DATABASE_URL=${DATABASE_URL}"
+          } > .env
+
+      - name: Generate Prisma client
+        run: pnpm db:generate
+
+      - name: Check database connectivity
+        run: |
+          node ./scripts/run-with-root-env.mjs pnpm --filter web exec tsx -e '
+          import { PrismaClient } from "@prisma/client";
+          const db = new PrismaClient();
+          async function main() {
+            const result = await db.$queryRaw`SELECT 1 AS ok`;
+            console.log(JSON.stringify(result));
+            await db.$disconnect();
+          }
+          main().catch(async (error) => {
+            console.error(error);
+            await db.$disconnect();
+            process.exit(1);
+          });
+          '
+
+      - name: Remove workflow env file
+        if: always()
+        run: rm -f .env
