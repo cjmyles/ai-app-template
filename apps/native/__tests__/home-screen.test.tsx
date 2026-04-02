@@ -44,7 +44,7 @@ describe("HomeScreen", () => {
 	});
 
 	it("renders the successful health response", async () => {
-		jest.spyOn(global, "fetch").mockResolvedValue({
+		jest.spyOn(globalThis, "fetch").mockResolvedValue({
 			json: async () => ({ ok: true }),
 		} as Response);
 
