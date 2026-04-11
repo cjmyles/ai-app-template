@@ -33,6 +33,8 @@ pnpm dev:web
 pnpm dev:native
 ```
 
+Set `NEXT_PUBLIC_SITE_URL` in the root `.env` to your production origin when you want Next.js to emit canonical URLs. Leave it unset or empty in local development to avoid generating canonicals from localhost or preview hosts.
+
 ### Prerequisites
 
 - Node.js 20.19.4+ and `<21`
