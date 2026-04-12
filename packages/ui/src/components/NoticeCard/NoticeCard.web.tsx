@@ -1,13 +1,10 @@
 import type { ReactNode } from "react";
+import {
+	colorClassTokens,
+	noticeColorClassTokens,
+} from "../../tokens/colorClasses";
 
 type NoticeTone = "info" | "success" | "warning" | "danger";
-
-const TONE_CLASSES: Record<NoticeTone, string> = {
-	info: "border-blue-200 bg-blue-50 text-blue-950",
-	success: "border-green-200 bg-green-50 text-green-950",
-	warning: "border-amber-200 bg-amber-50 text-amber-950",
-	danger: "border-red-200 bg-red-50 text-red-950",
-};
 
 export type NoticeCardProps = {
 	title: string;
@@ -26,7 +23,7 @@ export function NoticeCard({
 }: NoticeCardProps) {
 	const classes = [
 		"rounded-xl border p-4 shadow-sm",
-		TONE_CLASSES[tone],
+		noticeColorClassTokens[tone],
 		className,
 	]
 		.filter(Boolean)
@@ -35,9 +32,23 @@ export function NoticeCard({
 	return (
 		<section className={classes}>
 			<div className="space-y-2">
-				<h2 className="text-sm font-semibold">{title}</h2>
+				<h2
+					className={[
+						"text-sm font-semibold",
+						colorClassTokens.text.strong,
+					].join(" ")}
+				>
+					{title}
+				</h2>
 				{description ? (
-					<p className="text-sm leading-6 text-current/80">{description}</p>
+					<p
+						className={[
+							"text-sm leading-6",
+							colorClassTokens.text.secondary,
+						].join(" ")}
+					>
+						{description}
+					</p>
 				) : null}
 				{children}
 			</div>

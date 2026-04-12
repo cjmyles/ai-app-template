@@ -4,6 +4,7 @@ import {
 	Text,
 	type ViewStyle,
 } from "react-native";
+import { buttonColorClassTokens } from "../../tokens/colorClasses";
 
 declare module "react-native" {
 	interface TextProps {
@@ -16,20 +17,6 @@ declare module "react-native" {
 
 type Variant = "primary" | "secondary" | "ghost" | "destructive";
 type Size = "sm" | "md" | "lg";
-
-const VARIANT_CONTAINER: Record<Variant, string> = {
-	primary: "bg-blue-600 rounded-md items-center justify-center",
-	secondary: "bg-neutral-100 rounded-md items-center justify-center",
-	ghost: "bg-transparent rounded-md items-center justify-center",
-	destructive: "bg-red-600 rounded-md items-center justify-center",
-};
-
-const VARIANT_TEXT: Record<Variant, string> = {
-	primary: "text-white font-medium",
-	secondary: "text-neutral-900 font-medium",
-	ghost: "text-neutral-900 font-medium",
-	destructive: "text-white font-medium",
-};
 
 const SIZE_CONTAINER: Record<Size, string> = {
 	sm: "px-3 py-1",
@@ -62,8 +49,10 @@ export function Button({
 	style,
 	onPress,
 }: ButtonProps) {
+	const tone = buttonColorClassTokens[variant];
 	const containerClass = [
-		VARIANT_CONTAINER[variant],
+		"rounded-md items-center justify-center",
+		tone.container,
 		SIZE_CONTAINER[size],
 		disabled ? "opacity-50" : "",
 		className,
@@ -71,7 +60,7 @@ export function Button({
 		.filter(Boolean)
 		.join(" ");
 
-	const textClass = [VARIANT_TEXT[variant], SIZE_TEXT[size]].join(" ");
+	const textClass = [tone.text, "font-medium", SIZE_TEXT[size]].join(" ");
 
 	return (
 		<Pressable

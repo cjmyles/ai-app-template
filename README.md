@@ -33,7 +33,7 @@ pnpm dev:web
 pnpm dev:native
 ```
 
-Set `NEXT_PUBLIC_SITE_URL` in the root `.env` to your production origin when you want Next.js to emit canonical URLs. Leave it unset or empty in local development to avoid generating canonicals from localhost or preview hosts.
+Set `NEXT_PUBLIC_SITE_URL` in the root `.env` to your production origin before launch. The web app uses it for canonical URLs, `robots.txt`, `sitemap.xml`, and structured data. Leave it unset or empty in local development if you do not want those URLs emitted from localhost.
 
 ### Prerequisites
 
@@ -82,6 +82,23 @@ pnpm test:native # Jest + React Native Testing Library smoke coverage
 ```
 
 CI runs both on every push to `main` and on all pull requests.
+
+## SEO Defaults
+
+The web scaffold includes reusable App Router SEO primitives:
+
+- `apps/web/lib/seo/config.ts` centralizes the site name, default description, production domain, and social preview defaults.
+- `apps/web/lib/seo/metadata.ts` provides canonical URL, metadata, and public/private indexing helpers.
+- `apps/web/app/robots.ts`, `apps/web/app/sitemap.ts`, and `apps/web/app/manifest.ts` provide the standard crawl surfaces.
+- `apps/web/app/opengraph-image.tsx`, `apps/web/app/icon.tsx`, and `apps/web/app/apple-icon.tsx` generate default share and icon assets without extra files.
+
+Customize these values after scaffolding a new project:
+
+- `NEXT_PUBLIC_SITE_URL` in the root `.env`
+- `apps/web/lib/seo/config.ts` for the site name, default title/description, keywords, and OG image copy
+- The default landing page copy in `apps/web/app/page.tsx`
+
+Private or authenticated routes should use the SEO helpers with `indexing: "private"` so they ship with `noindex` by default.
 
 ## Additional Docs
 
