@@ -42,7 +42,16 @@ while IFS= read -r file; do
 		echo "  - $file"
 		FAIL=1
 	fi
-done < <(git ls-files '*.ts' '*.tsx')
+done < <(
+	find . \
+		-type f \
+		\( -name '*.ts' -o -name '*.tsx' \) \
+		-not -path '*/node_modules/*' \
+		-not -path '*/.next/*' \
+		-not -path '*/dist/*' \
+		-not -path '*/coverage/*' \
+		-print | LC_ALL=C sort
+)
 
 if [[ "$FAIL" -ne 0 ]]; then
 	echo

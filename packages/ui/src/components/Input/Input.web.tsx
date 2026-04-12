@@ -1,5 +1,5 @@
 import type { ComponentPropsWithoutRef } from "react";
-import { colorClassTokens } from "../../tokens/colorClasses";
+import { colorClassTokens } from "../../tokens/color-classes";
 
 type InputProps = ComponentPropsWithoutRef<"input">;
 

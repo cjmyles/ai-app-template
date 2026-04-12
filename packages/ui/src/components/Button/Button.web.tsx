@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import {
 	buttonColorClassTokens,
 	colorClassTokens,
-} from "../../tokens/colorClasses";
+} from "../../tokens/color-classes";
 
 type Variant = "primary" | "secondary" | "ghost" | "destructive";
 type Size = "sm" | "md" | "lg";

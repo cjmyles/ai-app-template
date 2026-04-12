@@ -3,7 +3,7 @@ import { View } from "react-native";
 import {
 	colorClassTokens,
 	noticeColorClassTokens,
-} from "../../tokens/colorClasses";
+} from "../../tokens/color-classes";
 import { Text } from "../Text/Text.native";
 
 declare module "react-native" {

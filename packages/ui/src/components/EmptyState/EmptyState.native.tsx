@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { View } from "react-native";
-import { colorClassTokens } from "../../tokens/colorClasses";
+import { colorClassTokens } from "../../tokens/color-classes";
 import { Text } from "../Text/Text.native";
 
 declare module "react-native" {

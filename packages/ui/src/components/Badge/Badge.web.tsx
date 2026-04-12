@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { badgeColorClassTokens } from "../../tokens/colorClasses";
+import { badgeColorClassTokens } from "../../tokens/color-classes";
 
 type Variant = "default" | "secondary" | "success" | "destructive" | "outline";
 

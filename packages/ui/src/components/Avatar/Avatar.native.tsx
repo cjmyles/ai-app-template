@@ -5,7 +5,7 @@ import {
 	View,
 	type ViewStyle,
 } from "react-native";
-import { colorClassTokens } from "../../tokens/colorClasses";
+import { colorClassTokens } from "../../tokens/color-classes";
 
 declare module "react-native" {
 	interface TextProps {

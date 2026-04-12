@@ -1,3 +1,3 @@
 export * from "./config";
 export * from "./metadata";
-export * from "./structuredData";
+export * from "./structured-data";

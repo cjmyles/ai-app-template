@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { colorClassTokens } from "../../tokens/colorClasses";
+import { colorClassTokens } from "../../tokens/color-classes";
 
 export type EmptyStateProps = {
 	title: string;

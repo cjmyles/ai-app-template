@@ -1,4 +1,4 @@
-import { colorClassTokens } from "../../tokens/colorClasses";
+import { colorClassTokens } from "../../tokens/color-classes";
 
 type Size = "sm" | "md" | "lg";
 

@@ -1,5 +1,5 @@
 import { Text, View, type ViewStyle } from "react-native";
-import { badgeColorClassTokens } from "../../tokens/colorClasses";
+import { badgeColorClassTokens } from "../../tokens/color-classes";
 
 declare module "react-native" {
 	interface TextProps {

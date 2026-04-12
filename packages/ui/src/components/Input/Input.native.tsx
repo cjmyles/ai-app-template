@@ -4,7 +4,7 @@ import {
 	type TextInputProps,
 	type TextStyle,
 } from "react-native";
-import { colorClassTokens } from "../../tokens/colorClasses";
+import { colorClassTokens } from "../../tokens/color-classes";
 import { colors } from "../../tokens/colors";
 
 declare module "react-native" {

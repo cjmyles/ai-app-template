@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import {
 	colorClassTokens,
 	noticeColorClassTokens,
-} from "../../tokens/colorClasses";
+} from "../../tokens/color-classes";
 
 type NoticeTone = "info" | "success" | "warning" | "danger";
 

@@ -4,7 +4,7 @@ import {
 	Text,
 	type ViewStyle,
 } from "react-native";
-import { buttonColorClassTokens } from "../../tokens/colorClasses";
+import { buttonColorClassTokens } from "../../tokens/color-classes";
 
 declare module "react-native" {
 	interface TextProps {
