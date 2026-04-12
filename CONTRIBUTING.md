@@ -46,5 +46,5 @@ Before opening a PR:
 - [ ] Reusable patterns extracted to `@repo/ui`.
 - [ ] Shared types live in `@repo/types`.
 - [ ] Business validation / decision logic lives in `@repo/validation`.
-- [ ] `pnpm typecheck` passes.
-- [ ] `pnpm lint` passes.
+- [ ] `pnpm validate:final` passes on the exact tree being committed.
+- [ ] If any files were added, renamed, deleted, or any lint/typecheck scripts changed, `pnpm validate:final` was rerun after those final filesystem changes.

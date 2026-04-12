@@ -14,6 +14,8 @@ applicable to every coding assistant working in the template.
 ### Template Guardrails
 
 - Keep the repo-wide `pnpm typecheck` and `pnpm lint` checks in place.
+- Run `pnpm validate:final` on the final working tree immediately before any commit, push, or PR creation.
+- If files were added, renamed, deleted, or lint/typecheck scripts changed, rerun `pnpm validate:final` after those last filesystem changes. Do not rely on earlier passing runs.
 - Keep Biome as the formatter/linter. Do not add Prettier or ESLint.
 - Preserve the `no default exports unless framework-required` rule.
 

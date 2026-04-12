@@ -16,6 +16,7 @@
 		"test:native": "pnpm --filter native run test",
 		"typecheck": "pnpm -r typecheck",
 		"lint": "biome check . && pnpm lint:guard:prisma-client-imports && pnpm lint:guard:prisma-types-sync && pnpm lint:guard:generated-enums && pnpm lint:guard:file-naming && pnpm lint:guard:no-migrations",
+		"validate:final": "pnpm typecheck && pnpm lint",
 		"format": "biome format --write .",
 		"gen:types:enums": "node ./scripts/generate-shared-enums.mjs",
 		"lint:guard:prisma-client-imports": "bash ./scripts/check-prisma-client-imports.sh",
