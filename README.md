@@ -35,6 +35,16 @@ pnpm dev:native
 
 Set `NEXT_PUBLIC_SITE_URL` in the root `.env` to your production origin before launch. The web app uses it for canonical URLs, `robots.txt`, `sitemap.xml`, and structured data. Leave it unset or empty in local development if you do not want those URLs emitted from localhost.
 
+`pnpm dev:web` pins Next.js to port `3000` so `AUTH_URL` stays stable. If you run
+the web app on a different port, update `AUTH_URL` in the root `.env` to the
+same origin.
+
+The Docker Compose file avoids fixed container names so multiple clones can run
+without container-name collisions. If two local projects need Postgres at the
+same time, change `POSTGRES_PORT`, `POSTGRES_DB`, and `DATABASE_URL` in that
+project's root `.env`. If multiple clones use the same checkout directory name,
+also set a unique `COMPOSE_PROJECT_NAME`.
+
 ### Prerequisites
 
 - Node.js 20.19.4+ and `<21`
@@ -100,8 +110,19 @@ Customize these values after scaffolding a new project:
 
 Private or authenticated routes should use the SEO helpers with `indexing: "private"` so they ship with `noindex` by default.
 
+## Authentication Notes
+
+The credentials scaffold catches ordinary failed credentials and displays an
+inline error instead of surfacing a framework error overlay.
+
+For protected routes, do not blindly redirect every signed-in user from the login
+page to a protected destination. Signed-in users may still lack authorization for
+that route. See `docs/architecture/authentication.md` for the safe redirect
+pattern.
+
 ## Additional Docs
 
-- `docs/ai-shared-instructions.md` — canonical cross-assistant implementation rules
+- `docs/engineering/ai-shared-instructions.md` — canonical cross-assistant implementation rules
+- `docs/architecture/authentication.md` — Auth.js login and protected-route guidance
 - `docs/environment-model-runbook.md` — environment, delivery, and seeding model
 - `CONTRIBUTING.md` — git workflow and UI component guidance

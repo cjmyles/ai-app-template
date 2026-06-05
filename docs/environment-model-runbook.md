@@ -94,6 +94,17 @@ Current local expectations:
 Do not create app-local `.env` files for normal local development. Hosted
 builds may still use their platform-specific environment-variable systems.
 
+`pnpm dev:web` runs Next.js on a fixed `3000` port. Keep `AUTH_URL` set to the
+same origin. If you intentionally run another port, update `AUTH_URL` instead of
+letting Auth.js callbacks point at the wrong local origin.
+
+The local Docker Compose file does not set `container_name`. This lets Compose
+derive a project-specific name from the checkout directory and avoids collisions
+between multiple clones. If two projects need local Postgres at the same time,
+set project-specific `POSTGRES_PORT`, `POSTGRES_DB`, and matching
+`DATABASE_URL` values in each root `.env`. If multiple clones use the same
+checkout directory name, set a unique `COMPOSE_PROJECT_NAME` too.
+
 ## Hosted Environments
 
 Use whatever provider best fits your stack, but keep the environment model
