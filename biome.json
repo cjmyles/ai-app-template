@@ -23,6 +23,11 @@
 			"quoteStyle": "double"
 		}
 	},
+	"css": {
+		"parser": {
+			"tailwindDirectives": true
+		}
+	},
 	"assist": {
 		"enabled": true,
 		"actions": {
@@ -33,7 +38,7 @@
 	},
 	"overrides": [
 		{
-			"includes": ["**/global.css"],
+			"includes": ["**/global.css", "**/globals.css"],
 			"linter": {
 				"rules": {
 					"suspicious": {

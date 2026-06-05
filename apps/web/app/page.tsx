@@ -1,4 +1,6 @@
 import { Button, Input, NoticeCard } from "@repo/ui";
+import { redirect } from "next/navigation";
+import { AuthError } from "next-auth";
 import { signIn } from "@/lib/auth";
 import {
 	buildPageMetadata,
@@ -30,15 +32,40 @@ const starterHighlights = [
 	},
 ] as const;
 
-export default function HomePage() {
+type HomePageProps = {
+	searchParams?: Promise<{
+		loginError?: string | string[];
+	}>;
+};
+
+export default async function HomePage({ searchParams }: HomePageProps) {
 	async function handleSignIn(formData: FormData) {
 		"use server";
 		const email = formData.get("email");
 		const password = formData.get("password");
 		if (typeof email !== "string" || typeof password !== "string") return;
-		await signIn("credentials", { email, password, redirectTo: "/dashboard" });
+		try {
+			await signIn("credentials", {
+				email,
+				password,
+				redirectTo: "/dashboard",
+			});
+		} catch (error) {
+			if (
+				error instanceof AuthError &&
+				(error.type === "CredentialsSignin" ||
+					error.type === "CallbackRouteError")
+			) {
+				redirect("/?loginError=credentials");
+			}
+			throw error;
+		}
 	}
 
+	const resolvedSearchParams = await searchParams;
+	const loginError = Array.isArray(resolvedSearchParams?.loginError)
+		? resolvedSearchParams.loginError[0]
+		: resolvedSearchParams?.loginError;
 	const websiteStructuredData = JSON.stringify(buildWebsiteStructuredData());
 
 	return (
@@ -89,6 +116,13 @@ export default function HomePage() {
 							title="Local demo credentials"
 							description="Run `pnpm db:seed:demo`, then sign in with dev@example.com and any non-empty password."
 						/>
+						{loginError === "credentials" ? (
+							<NoticeCard
+								tone="danger"
+								title="Sign-in failed"
+								description="Check the email and password, then try again."
+							/>
+						) : null}
 						<form action={handleSignIn} className="space-y-4">
 							<Input type="email" name="email" placeholder="Email" required />
 							<Input
