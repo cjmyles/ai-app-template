@@ -1,5 +1,8 @@
 export const colors = {
 	white: "#ffffff",
+	whiteAlpha: {
+		strong: "rgba(255, 255, 255, 0.82)",
+	},
 	black: "#000000",
 	primary: {
 		50: "#eff6ff",

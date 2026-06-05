@@ -1,6 +1,14 @@
 import { Button, NoticeCard, Text } from "@repo/ui";
 import { redirect } from "next/navigation";
 import { auth, signOut } from "@/lib/auth";
+import { buildPageMetadata, siteConfig } from "@/lib/seo";
+
+export const metadata = buildPageMetadata({
+	title: "Dashboard",
+	description: "Authenticated workspace for signed-in users.",
+	path: siteConfig.routes.dashboard,
+	indexing: "private",
+});
 
 export default async function DashboardPage() {
 	const session = await auth();

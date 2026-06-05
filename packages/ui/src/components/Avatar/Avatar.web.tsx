@@ -1,3 +1,5 @@
+import { colorClassTokens } from "../../tokens/color-classes";
+
 type Size = "sm" | "md" | "lg";
 
 const SIZE: Record<Size, string> = {
@@ -21,8 +23,13 @@ export function Avatar({
 	size = "md",
 	className,
 }: AvatarProps) {
-	const base =
-		"rounded-full overflow-hidden inline-flex items-center justify-center bg-neutral-200 text-neutral-700 font-medium select-none";
+	const base = [
+		"inline-flex select-none items-center justify-center overflow-hidden rounded-full font-medium",
+		colorClassTokens.background.emphasis,
+		colorClassTokens.text.secondary,
+	]
+		.filter(Boolean)
+		.join(" ");
 	const classes = [base, SIZE[size], className].filter(Boolean).join(" ");
 
 	if (src) {

@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { colorClassTokens } from "../../tokens/color-classes";
 
 export type EmptyStateProps = {
 	title: string;
@@ -14,7 +15,9 @@ export function EmptyState({
 	children,
 }: EmptyStateProps) {
 	const classes = [
-		"rounded-xl border border-dashed border-neutral-300 bg-neutral-50 p-6 text-center",
+		"rounded-xl border border-dashed p-6 text-center",
+		colorClassTokens.border.default,
+		colorClassTokens.background.subtle,
 		className,
 	]
 		.filter(Boolean)
@@ -23,9 +26,22 @@ export function EmptyState({
 	return (
 		<section className={classes}>
 			<div className="space-y-2">
-				<h2 className="text-sm font-semibold text-neutral-900">{title}</h2>
+				<h2
+					className={[
+						"text-sm font-semibold",
+						colorClassTokens.text.primary,
+					].join(" ")}
+				>
+					{title}
+				</h2>
 				{description ? (
-					<p className="text-sm leading-6 text-neutral-600">{description}</p>
+					<p
+						className={["text-sm leading-6", colorClassTokens.text.muted].join(
+							" ",
+						)}
+					>
+						{description}
+					</p>
 				) : null}
 				{children}
 			</div>

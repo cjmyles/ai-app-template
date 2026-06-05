@@ -1,14 +1,11 @@
 import type { ReactNode } from "react";
+import {
+	buttonColorClassTokens,
+	colorClassTokens,
+} from "../../tokens/color-classes";
 
 type Variant = "primary" | "secondary" | "ghost" | "destructive";
 type Size = "sm" | "md" | "lg";
-
-const VARIANT: Record<Variant, string> = {
-	primary: "bg-blue-600 text-white hover:bg-blue-700",
-	secondary: "bg-neutral-100 text-neutral-900 hover:bg-neutral-200",
-	ghost: "bg-transparent text-neutral-900 hover:bg-neutral-100",
-	destructive: "bg-red-600 text-white hover:bg-red-700",
-};
 
 const SIZE: Record<Size, string> = {
 	sm: "px-3 py-1 text-sm",
@@ -35,9 +32,18 @@ export function Button({
 	className,
 	onClick,
 }: ButtonProps) {
+	const tone = buttonColorClassTokens[variant];
 	const base =
-		"inline-flex items-center justify-center rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 disabled:pointer-events-none disabled:opacity-50";
-	const classes = [base, VARIANT[variant], SIZE[size], className]
+		"inline-flex items-center justify-center rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 disabled:pointer-events-none disabled:opacity-50";
+	const classes = [
+		base,
+		tone.container,
+		tone.hover,
+		tone.text,
+		colorClassTokens.ring.focus,
+		SIZE[size],
+		className,
+	]
 		.filter(Boolean)
 		.join(" ");
 

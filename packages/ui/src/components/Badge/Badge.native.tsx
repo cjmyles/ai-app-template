@@ -1,4 +1,5 @@
 import { Text, View, type ViewStyle } from "react-native";
+import { badgeColorClassTokens } from "../../tokens/color-classes";
 
 declare module "react-native" {
 	interface TextProps {
@@ -10,26 +11,6 @@ declare module "react-native" {
 }
 
 type Variant = "default" | "secondary" | "success" | "destructive" | "outline";
-
-const VARIANT_CONTAINER: Record<Variant, string> = {
-	default: "bg-blue-600 rounded-full px-2.5 py-0.5 items-center justify-center",
-	secondary:
-		"bg-neutral-100 rounded-full px-2.5 py-0.5 items-center justify-center",
-	success:
-		"bg-green-100 rounded-full px-2.5 py-0.5 items-center justify-center",
-	destructive:
-		"bg-red-100 rounded-full px-2.5 py-0.5 items-center justify-center",
-	outline:
-		"border border-neutral-300 rounded-full px-2.5 py-0.5 items-center justify-center",
-};
-
-const VARIANT_TEXT: Record<Variant, string> = {
-	default: "text-white text-xs font-medium",
-	secondary: "text-neutral-900 text-xs font-medium",
-	success: "text-green-800 text-xs font-medium",
-	destructive: "text-red-800 text-xs font-medium",
-	outline: "text-neutral-900 text-xs font-medium",
-};
 
 type BadgeProps = {
 	children: string;
@@ -44,13 +25,20 @@ export function Badge({
 	className,
 	style,
 }: BadgeProps) {
-	const containerClass = [VARIANT_CONTAINER[variant], className]
+	const tone = badgeColorClassTokens[variant];
+	const containerClass = [
+		"rounded-full px-2.5 py-0.5 items-center justify-center",
+		tone.container,
+		className,
+	]
 		.filter(Boolean)
 		.join(" ");
 
 	return (
 		<View className={containerClass} style={style}>
-			<Text className={VARIANT_TEXT[variant]}>{children}</Text>
+			<Text className={[tone.text, "text-xs font-medium"].join(" ")}>
+				{children}
+			</Text>
 		</View>
 	);
 }

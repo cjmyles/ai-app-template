@@ -5,6 +5,7 @@ import {
 	View,
 	type ViewStyle,
 } from "react-native";
+import { colorClassTokens } from "../../tokens/color-classes";
 
 declare module "react-native" {
 	interface TextProps {
@@ -21,15 +22,15 @@ declare module "react-native" {
 type Size = "sm" | "md" | "lg";
 
 const SIZE_CONTAINER: Record<Size, string> = {
-	sm: "h-8 w-8 rounded-full overflow-hidden items-center justify-center bg-neutral-200",
-	md: "h-10 w-10 rounded-full overflow-hidden items-center justify-center bg-neutral-200",
-	lg: "h-14 w-14 rounded-full overflow-hidden items-center justify-center bg-neutral-200",
+	sm: "h-8 w-8",
+	md: "h-10 w-10",
+	lg: "h-14 w-14",
 };
 
 const SIZE_TEXT: Record<Size, string> = {
-	sm: "text-xs text-neutral-700 font-medium",
-	md: "text-sm text-neutral-700 font-medium",
-	lg: "text-base text-neutral-700 font-medium",
+	sm: "text-xs",
+	md: "text-sm",
+	lg: "text-base",
 };
 
 const SIZE_PX: Record<Size, number> = {
@@ -56,7 +57,12 @@ export function Avatar({
 	style,
 }: AvatarProps) {
 	const px = SIZE_PX[size];
-	const containerClass = [SIZE_CONTAINER[size], className]
+	const containerClass = [
+		"items-center justify-center overflow-hidden rounded-full",
+		colorClassTokens.background.emphasis,
+		SIZE_CONTAINER[size],
+		className,
+	]
 		.filter(Boolean)
 		.join(" ");
 
@@ -76,7 +82,15 @@ export function Avatar({
 
 	return (
 		<View className={containerClass} style={style}>
-			<Text className={SIZE_TEXT[size]}>{label}</Text>
+			<Text
+				className={[
+					SIZE_TEXT[size],
+					colorClassTokens.text.secondary,
+					"font-medium",
+				].join(" ")}
+			>
+				{label}
+			</Text>
 		</View>
 	);
 }

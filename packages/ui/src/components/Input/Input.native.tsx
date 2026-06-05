@@ -4,6 +4,7 @@ import {
 	type TextInputProps,
 	type TextStyle,
 } from "react-native";
+import { colorClassTokens } from "../../tokens/color-classes";
 import { colors } from "../../tokens/colors";
 
 declare module "react-native" {
@@ -27,8 +28,13 @@ export function Input({
 	style,
 	onChangeText,
 }: InputProps) {
-	const base =
-		"border border-neutral-300 rounded-md px-3 py-2 text-sm bg-white";
+	const base = [
+		"rounded-md border px-3 py-2 text-sm",
+		colorClassTokens.border.default,
+		colorClassTokens.background.canvas,
+	]
+		.filter(Boolean)
+		.join(" ");
 	const classes = [base, disabled ? "opacity-50" : "", className]
 		.filter(Boolean)
 		.join(" ");
