@@ -64,7 +64,7 @@ export default function OpenGraphImage() {
 						maxWidth: "72%",
 						fontSize: 32,
 						lineHeight: 1.35,
-						color: "rgba(255, 255, 255, 0.82)",
+						color: colors.whiteAlpha.strong,
 					}}
 				>
 					{siteConfig.ogImage.description}

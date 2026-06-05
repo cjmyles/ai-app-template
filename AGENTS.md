@@ -4,7 +4,7 @@
 
 All cross-assistant implementation rules live in:
 
-- `docs/ai-shared-instructions.md`
+- `docs/engineering/ai-shared-instructions.md`
 
 ## Agent-Specific Additions
 
