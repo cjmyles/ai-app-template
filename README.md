@@ -86,10 +86,16 @@ this mode.
 ## Checks
 
 ```sh
-pnpm typecheck   # tsc across all packages
-pnpm lint        # Biome plus guard scripts
-pnpm test:native # Jest + React Native Testing Library smoke coverage
+pnpm validate:fast # lightweight web-focused validation for fast iteration
+pnpm validate:pr   # final pre-commit/pre-push/pre-PR gate
+pnpm typecheck     # tsc across all packages
+pnpm lint          # Biome plus guard scripts
+pnpm test:native   # Jest + React Native Testing Library smoke coverage
 ```
+
+Use fast validation during normal implementation. Use `pnpm validate:pr` only
+when preparing to commit, push, or open/update a PR. `pnpm validate:final` is
+kept as a compatibility alias for `pnpm validate:pr`.
 
 CI runs both on every push to `main` and on all pull requests.
 

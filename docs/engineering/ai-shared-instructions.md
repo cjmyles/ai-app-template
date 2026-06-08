@@ -90,15 +90,29 @@ apps/web/src/features/<feature>/
 - Put tests in `__tests__/` folders near the source they cover.
 - Do not add top-level `tests/` folders or sibling `*.test.ts` files for new
   code.
-- Run focused tests for the behavior changed.
-- Run `pnpm typecheck` and `pnpm lint` after meaningful code changes.
-- Run `pnpm validate:final` immediately before a commit, push, or PR.
+- Fast work mode is the default for normal implementation, UI tweaks, copy
+  changes, debugging, and review iterations.
+- In fast work mode, make the requested change and run the smallest useful
+  validation for the changed behavior.
+- For web-only UI, copy, or display changes, `pnpm validate:fast` is the
+  preferred lightweight check.
+- Run focused tests when the changed behavior has focused test coverage.
+- PR prep mode starts only when the user asks to commit, push, open/update a PR,
+  or says the work is ready.
+- In PR prep mode, run `pnpm validate:pr` on the final working tree before
+  staging, committing, pushing, or opening/updating a PR.
+- `pnpm validate:final` remains as a compatibility alias for `pnpm validate:pr`.
 - If files are added, renamed, deleted, or validation scripts change after a
-  passing validation run, rerun `pnpm validate:final`.
+  passing PR validation run, rerun `pnpm validate:pr`.
+- Deployment checks and deployment polling are deployment mode only. Run them
+  when the user asks for deploy verification, production checks, or when
+  investigating a failed deployment.
 
 ## PR Hygiene
 
 - Keep PRs focused on one coherent change.
+- Do not commit, push, or open/update a PR unless the user explicitly asks or
+  says the work is ready.
 - Stage only files related to the requested work.
 - Summarize validation commands and results in the PR body.
 - Call out intentionally skipped validation and the reason.

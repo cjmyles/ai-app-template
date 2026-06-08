@@ -16,6 +16,20 @@ Why:
 - starting the next change from fresh `main` avoids confusing ancestry and
   duplicate commits in later pull requests
 
+## Validation Workflow
+
+Fast work mode is the default for normal implementation, UI tweaks, copy
+changes, debugging, and review iterations. Make the requested change and run the
+smallest useful validation for that behavior. For web-only UI, copy, and display
+changes, `pnpm validate:fast` is the recommended lightweight check.
+
+PR prep mode starts only when the work is ready to commit, push, or open/update a
+PR. Run `pnpm validate:pr` on the final working tree before staging. The existing
+`pnpm validate:final` command is a compatibility alias for the same final gate.
+
+Do not run deployment checks or deployment polling during fast work unless you
+are explicitly verifying a deployment or investigating a failed deploy.
+
 ## UI Component Rules
 
 Use `@repo/ui` for reusable UI primitives and shared visual patterns.
@@ -46,5 +60,5 @@ Before opening a PR:
 - [ ] Reusable patterns extracted to `@repo/ui`.
 - [ ] Shared types live in `@repo/types`.
 - [ ] Business validation / decision logic lives in `@repo/validation`.
-- [ ] `pnpm validate:final` passes on the exact tree being committed.
-- [ ] If any files were added, renamed, deleted, or any lint/typecheck scripts changed, `pnpm validate:final` was rerun after those final filesystem changes.
+- [ ] `pnpm validate:pr` passes on the exact tree being committed.
+- [ ] If any files were added, renamed, deleted, or any lint/typecheck scripts changed, `pnpm validate:pr` was rerun after those final filesystem changes.
