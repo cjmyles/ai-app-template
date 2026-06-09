@@ -47,7 +47,7 @@ also set a unique `COMPOSE_PROJECT_NAME`.
 
 ### Prerequisites
 
-- Node.js 20.19.4+ and `<21`
+- Node.js 22.x
 - pnpm
 - Docker
 

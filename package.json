@@ -39,7 +39,7 @@
 		"native:doctor": "pnpm --filter native run doctor"
 	},
 	"engines": {
-		"node": ">=20.19.4 <21"
+		"node": ">=22 <23"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.4.4"
