@@ -1,12 +1,11 @@
 const path = require("node:path");
 
-const [major, minor, patch] = process.versions.node.split(".").map(Number);
-const isSupportedNode =
-	major === 20 && (minor > 19 || (minor === 19 && patch >= 4));
+const [major] = process.versions.node.split(".").map(Number);
+const isSupportedNode = major === 22;
 
 if (!isSupportedNode) {
 	throw new Error(
-		`Unsupported Node ${process.version}. Expo SDK 54 requires Node >=20.19.4 and <21. Run \`nvm use\`.`,
+		`Unsupported Node ${process.version}. This template requires Node 22.x. Run \`nvm use\`.`,
 	);
 }
 

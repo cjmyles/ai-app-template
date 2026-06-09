@@ -14,8 +14,21 @@ applicable to every coding assistant working in the template.
 ### Template Guardrails
 
 - Keep the repo-wide `pnpm typecheck` and `pnpm lint` checks in place.
-- Run `pnpm validate:final` on the final working tree immediately before any commit, push, or PR creation.
-- If files were added, renamed, deleted, or lint/typecheck scripts changed, rerun `pnpm validate:final` after those last filesystem changes. Do not rely on earlier passing runs.
+- Fast work mode is the default for normal implementation, UI tweaks, copy
+  changes, debugging, and review iterations.
+- In fast work mode, make the requested change and run the smallest useful
+  validation for the changed behavior. For web-only UI, copy, or display
+  changes, prefer `pnpm validate:fast`.
+- Do not run deployment checks, deployment polling, commit, push, or PR ceremony
+  unless explicitly requested or investigating a failed deployment.
+- PR prep mode starts only when the user asks to commit, push, open/update a PR,
+  or says the work is ready.
+- Run `pnpm validate:pr` on the final working tree immediately before any
+  commit, push, or PR creation. `pnpm validate:final` is a compatibility alias
+  for the same final gate.
+- If files were added, renamed, deleted, or lint/typecheck scripts changed,
+  rerun `pnpm validate:pr` after those last filesystem changes. Do not rely on
+  earlier passing runs.
 - Keep Biome as the formatter/linter. Do not add Prettier or ESLint.
 - Preserve the `no default exports unless framework-required` rule.
 
@@ -29,4 +42,5 @@ applicable to every coding assistant working in the template.
 - Prefer `next/font` over external font CDN links.
 - Update sitemap entries and crawl rules whenever public routes are added or removed.
 - Do not ship public pages without metadata.
-- After SEO-related changes, run `pnpm typecheck && pnpm lint`.
+- During fast work, run the smallest useful SEO validation. Before commit, push,
+  or PR, run `pnpm validate:pr`.

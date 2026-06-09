@@ -14,15 +14,11 @@ function check(name, fn) {
 	}
 }
 
-check("Node version is >= 20.19.4 and < 21", () => {
-	const [major, minor, patch] = process.versions.node.split(".").map(Number);
-	const isAtLeastRequired =
-		major > 20 ||
-		(major === 20 && (minor > 19 || (minor === 19 && patch >= 4)));
-	const isSupportedMajor = major === 20;
+check("Node version is 22.x", () => {
+	const [major] = process.versions.node.split(".").map(Number);
 
-	if (!isAtLeastRequired || !isSupportedMajor) {
-		throw new Error(`Expected Node 20.19.4+ (20.x), found ${process.version}`);
+	if (major !== 22) {
+		throw new Error(`Expected Node 22.x, found ${process.version}`);
 	}
 });
 

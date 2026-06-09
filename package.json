@@ -18,7 +18,9 @@
 		"typecheck": "pnpm -r typecheck",
 		"lint": "biome check . && pnpm lint:guard:raw-colors && pnpm lint:guard:prisma-client-imports && pnpm lint:guard:prisma-types-sync && pnpm lint:guard:generated-enums && pnpm lint:guard:file-naming && pnpm lint:guard:no-migrations",
 		"check:ci": "pnpm db:generate && pnpm typecheck && pnpm lint && pnpm test",
-		"validate:final": "pnpm typecheck && pnpm lint",
+		"validate:fast": "pnpm --filter web typecheck",
+		"validate:pr": "pnpm typecheck && pnpm lint",
+		"validate:final": "pnpm validate:pr",
 		"format": "biome format --write .",
 		"gen:types:enums": "node ./scripts/generate-shared-enums.mjs",
 		"lint:guard:raw-colors": "bash ./scripts/check-raw-colors.sh",
@@ -37,7 +39,7 @@
 		"native:doctor": "pnpm --filter native run doctor"
 	},
 	"engines": {
-		"node": ">=20.19.4 <21"
+		"node": ">=22 <23"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.4.4"
