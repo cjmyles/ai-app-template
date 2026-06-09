@@ -48,7 +48,7 @@ also set a unique `COMPOSE_PROJECT_NAME`.
 ### Prerequisites
 
 - Node.js 22.x
-- pnpm
+- pnpm 10.29.3
 - Docker
 
 ### Local Environment
